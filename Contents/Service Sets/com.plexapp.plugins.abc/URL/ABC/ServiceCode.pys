@@ -75,6 +75,7 @@ def MediaObjectsForURL(url):
 
 ####################################################################################################
 
+@indirect
 def PlayVideo(url, bitrate = None):
   
   FEED_URL = "http://cdn.abc.go.com/vp2/ws/s/contents/2000/utils/mov/13/9024/%s/432"
@@ -101,7 +102,19 @@ def PlayVideo(url, bitrate = None):
     index = index - 1
   
   player = "rtmp://cp88586.edgefcs.net/ondemand/"
-  return Redirect(RTMPVideoURL(player, clip))
+
+  oc = ObjectContainer(
+    objects = [
+      VideoClipObject(
+        items = [
+          MediaObject(
+            parts = [PartObject(key = RTMPVideoURL(player, clip))]
+          )
+        ]
+      )
+    ]
+  )
+  return oc
 
 ####################################################################################################
 
